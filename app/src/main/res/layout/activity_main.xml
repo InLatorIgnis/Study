@@ -19,31 +19,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/questionTextView"
         android:layout_marginTop="16dp">
-
-        <RadioButton
-            android:id="@+id/option1RadioButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Berlin" />
-
-        <RadioButton
-            android:id="@+id/option2RadioButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Paris" />
-
-        <RadioButton
-            android:id="@+id/option3RadioButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="London" />
-
-        <RadioButton
-            android:id="@+id/option4RadioButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Madrid" />
     </RadioGroup>
+
 
     <Button
         android:id="@+id/submitButton"
