@@ -1,5 +1,7 @@
 package com.example.study;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,22 +18,27 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private TextView questionTextView;
+    private TextView scoreTextView; // Add this
     private RadioGroup answerRadioGroup;
     private Button submitButton;
+    private Button mainMenuButton; // Add this
     private List<Question> questionBank = new ArrayList<>();
     private int currentQuestionIndex = 0;
     private int noCorrect = 0;
+    private List<Integer> scoreHistory = new ArrayList<>(); // Add this
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        mainMenuButton = findViewById(R.id.mainMenuButton); // Add this
+        mainMenuButton.setVisibility(View.GONE); // Add this
         questionTextView = findViewById(R.id.questionTextView);
+        scoreTextView = findViewById(R.id.scoreTextView);
         answerRadioGroup = findViewById(R.id.answerRadioGroup);
          submitButton = findViewById(R.id.submitButton);
-
-
+        scoreTextView.setVisibility(View.INVISIBLE);
+        retrieveScoreHistory();
         // Question i
         List<AnswerOption> answerOptions1 = new ArrayList<>();
         answerOptions1.add(new AnswerOption("Sant"));
@@ -103,6 +110,8 @@ public class MainActivity extends AppCompatActivity {
     displayQuestion();
 
         submitButton.setOnClickListener(new View.OnClickListener() {
+
+
             @Override
             public void onClick(View v) {
                 checkAnswer();
@@ -140,9 +149,9 @@ public class MainActivity extends AppCompatActivity {
             String answer = selectedRadioButton.getText().toString();
 
             // Check if the selected answer is correct
-            for (AnswerOption answerOption : questionBank.get(currentQuestionIndex).getAnswerOptionsList()) {
+            for (AnswerOption answerOption : questionBank.get(currentQuestionIndex).getAnswerOptionsList()) { // första halvan kan vara onödig
                  {
-                     if(answerOption.getIsCorrect()) {
+                     if(answerOption.getAnswerOptionText().equals(answer) && answerOption.getIsCorrect()) {
                          // Correct answer
                          noCorrect++;
                      }
@@ -151,8 +160,7 @@ public class MainActivity extends AppCompatActivity {
                         if (currentQuestionIndex < questionBank.size()) {
                             displayQuestion();
                         } else {
-                            showToast("Quiz completed!"+" "+noCorrect+"/"+questionBank.size()+" correct answers");
-3
+                            endQuiz();
                         }
 
                     }
@@ -165,4 +173,59 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+    private void displayScoreHistory() { // Add this
+        StringBuilder scoreHistoryText = new StringBuilder("Score History:\n");
+        for (int i = 0; i < scoreHistory.size(); i++) {
+            scoreHistoryText.append("Attempt ").append(i + 1).append(": ").append(scoreHistory.get(i)).append("\n");
+        }
+        scoreTextView.setText(scoreHistoryText.toString());
+
+        mainMenuButton.setOnClickListener(new View.OnClickListener() { // Add this
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MenuActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+
+
+    private void endQuiz() {
+        // Clear the screen
+        questionTextView.setVisibility(View.GONE);
+        answerRadioGroup.setVisibility(View.GONE);
+        submitButton.setVisibility(View.GONE);
+        mainMenuButton.setVisibility(View.VISIBLE);
+
+        // Display the score history
+        showToast("Quiz completed!"+" "+noCorrect+"/"+questionBank.size()+" correct answers");
+        scoreHistory.add(noCorrect);
+        displayScoreHistory();
+
+        // Make the scoreTextView visible
+        saveScoreHistory();
+        scoreTextView.setVisibility(View.VISIBLE);
+
+    }
+
+    private void saveScoreHistory() {
+        SharedPreferences sharedPreferences = getSharedPreferences("ScoreHistory", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        for(int i=0; i<scoreHistory.size(); i++) {
+            editor.putInt("Score"+i, scoreHistory.get(i));
+        }
+        editor.putInt("ScoreSize", scoreHistory.size());
+        editor.apply();
+    }
+
+    private void retrieveScoreHistory() {
+        SharedPreferences sharedPreferences = getSharedPreferences("ScoreHistory", MODE_PRIVATE);
+        int size = sharedPreferences.getInt("ScoreSize", 0);
+        for(int i=0; i<size; i++) {
+            scoreHistory.add(sharedPreferences.getInt("Score"+i, 0));
+        }
+    }
 }
+

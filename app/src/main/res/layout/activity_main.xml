@@ -10,8 +10,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="What is the capital of France?"
+        android:text=""
         android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/scoreTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Score History"
+        android:textSize="18sp" />
+
 
     <RadioGroup
         android:id="@+id/answerRadioGroup"
@@ -29,5 +37,15 @@
         android:layout_below="@id/answerRadioGroup"
         android:layout_marginTop="16dp"
         android:text="Submit" />
+
+
+
+    <Button
+        android:id="@+id/mainMenuButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="To main menu" />
+
 
 </RelativeLayout>
