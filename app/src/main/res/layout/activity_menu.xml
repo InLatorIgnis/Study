@@ -12,6 +12,13 @@
         android:layout_centerInParent="true"
         android:text="Start Quiz" />
 
+    <Button
+        android:id="@+id/deleteHistoryButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="Erase history" />
+
 
 
 </RelativeLayout>

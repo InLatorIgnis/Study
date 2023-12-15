@@ -1,27 +1,23 @@
 package com.example.study;
 
-import com.example.study.AnswerOption;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class Question {
-    private String questionText;
-    private List<AnswerOption> answerOptionsList;
+    private final String questionText;
+    private final List<AnswerOption> answerOptionsList;
 
     /**
-     *
-     * @param questionText sets the question text
+     * @param questionText      sets the question text
      * @param answerOptionsList sets the answer options from a list of type AnswerOption
      */
-    public Question (String questionText, List<AnswerOption> answerOptionsList){
+    public Question(String questionText, List<AnswerOption> answerOptionsList) {
         this.questionText = questionText;
         this.answerOptionsList = answerOptionsList;
     }
 
     /**
-     *
      * @return returns the question text of the question object
      */
     public String getQuestionText() {
@@ -29,7 +25,6 @@ public class Question {
     }
 
     /**
-     *
      * @return retuns a list answer options of the question object
      */
     public List<AnswerOption> getAnswerOptionsList() {
@@ -37,7 +32,6 @@ public class Question {
     }
 
     /**
-     *
      * @return returns a list answer options of the question object in random order
      */
     public List<AnswerOption> getRandomOrderAnswerOptionsList() {
